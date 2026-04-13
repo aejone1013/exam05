@@ -1,47 +1,39 @@
 #ifndef BIGINT_HPP
 #define BIGINT_HPP
-
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <algorithm>
 
-class	bigint
+class bigint
 {
-	private:
-		std::string	_string;
+private:
+	std::string	_s;
+public:
+	bigint() : _s("0") {}
+	bigint(unsigned int n) { std::ostringstream o; o << n; _s = o.str(); }
+	bigint(const bigint& o) : _s(o._s) {}
+	bigint&	operator=(const bigint& o) { _s = o._s; return *this; }
 
-	public:
-		bigint();
-		bigint(unsigned int n);
-		bigint(const bigint& other);
-		bigint&	operator=(const bigint& other);
+	bigint	operator+(const bigint& o) const;
+	bigint&	operator+=(const bigint& o) { *this = *this + o; return *this; }
+	bigint&	operator++()    { *this += bigint(1); return *this; }
+	bigint	operator++(int) { bigint t(*this); ++(*this); return t; }
 
-		bigint	operator+(const bigint& other) const;
-		bigint&	operator+=(const bigint& other);
-		bigint&	operator++();
-		bigint	operator++(int);
-		// 참조가 아니라 값 복사 인자이므로 여기서는 const가 필요 없다.
-		
-		bigint	operator<<(unsigned int n) const; 
-		bigint&	operator<<=(unsigned int n);
-		bigint	operator>>(unsigned int n) const;
-		bigint&	operator>>=(const bigint& other);
-		
-		bool	operator>(const bigint& other) const;
-		bool	operator<(const bigint& other) const;
-		bool	operator==(const bigint& other) const;
-		bool	operator!=(const bigint& other) const;
-		bool	operator<=(const bigint& other) const;
-		bool	operator>=(const bigint& other) const;
+	bigint	operator<<(unsigned int n) const;
+	bigint&	operator<<=(unsigned int n) { *this = *this << n; return *this; }
+	bigint	operator>>(unsigned int n) const;
+	bigint&	operator>>=(const bigint& o);
 
-		const std::string&	getValue() const;
+	bool	operator==(const bigint& o) const { return _s == o._s; }
+	bool	operator!=(const bigint& o) const { return !(*this == o); }
+	bool	operator<(const bigint& o) const;
+	bool	operator>(const bigint& o) const  { return o < *this; }
+	bool	operator<=(const bigint& o) const { return *this < o || *this == o; }
+	bool	operator>=(const bigint& o) const { return *this > o || *this == o; }
+
+	const std::string&	getValue() const { return _s; }
 };
 
-// ostream은 출력 스트림의 기반 타입이며 ostringstream도 이를 따른다.
-// 스트림은 복사할 수 없으므로 참조로 받아야 한다.
-std::ostream&	operator<<(std::ostream& out, const bigint& other);
-
-// 멤버 함수: 첫 번째 피연산자는 this(현재 객체)다.
-// 비멤버 함수: 두 피연산자 모두 매개변수로 전달된다.
+std::ostream& operator<<(std::ostream& out, const bigint& o);
 #endif
