@@ -7,7 +7,9 @@ public:
 	Searchabletree_bag(const Searchabletree_bag& other) : tree_bag(other) {}
 	~Searchabletree_bag() {}
 	Searchabletree_bag& operator=(const Searchabletree_bag& other) {
-		if (this != &other) tree_bag::operator=(other); return *this;
+		if (this != &other)
+			tree_bag::operator=(other);
+		return *this;
 	}
 	virtual bool has(int value) const {
 		node* cur = tree;

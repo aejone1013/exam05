@@ -14,6 +14,8 @@ public:
 		if (!values || size <= 0) return;
 		for (int i = 0; i < size; i++) if (!bag->has(values[i])) bag->insert(values[i]);
 	}
+	searchable_bag& get_bag() { return *bag; }
+	const searchable_bag& get_bag() const { return *bag; }
 	bool has(int value) const { return bag->has(value); }
 	void print() const { bag->print(); }
 	void clear() { bag->clear(); }

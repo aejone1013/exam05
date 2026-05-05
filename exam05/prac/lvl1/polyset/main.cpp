@@ -67,8 +67,6 @@ int	main(int argc, char **argv)
 		test_s.insert(arr, 4);
 		test_s.insert(99);
 		test_s.print();
-		// test_s.get_bag().print();
-			// 제거됨: set에는 get_bag() 메서드가 없다.
 	}
 
 	return (0);
